@@ -1,0 +1,35 @@
+# socket编程  
+## 基本函数  
+socket()  
+bind()  
+listen()  
+connect()  
+accept()  
+read()  
+write()  
+close()  
+
+## 与多路复用I/O的配合  
+bind() -> listen -> select/poll/epoll(帮助监听和阻塞) -> accept()  
+
+## epoll/poll/selcet  
+### epoll  
+1.用法 —— 监听socket，由内核将准备好的socket回调通知  
+epoll_ctl() 输入要监听的socket  
+epoll_wait() 返回当前监听到内容的socket  
+2.触发方式  
+1）电平触发  
+epoll默认，当epoll检测到事件后，程序未处理此事件，那么再次调用epoll_wait时，还会再次被通知到  
+2）边沿触发  
+必须立即处理，因为下一次不会再被通知  
+### poll/select  
+1.用法 —— 轮询所有的socket，将准备好的挑出来  
+2.触发方式  
+电平方式  
+
+### 区别  
+select/poll  
+文件描述符少；每次调用会线性扫描，效率低  
+  
+epoll  
+只对活跃的socekt进行操作，效率高  
