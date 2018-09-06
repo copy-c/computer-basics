@@ -1,30 +1,34 @@
-# 阿里 UC事业部1面  
+# 阿里UC事业部1面  
+
 1、基类中私有函数可以被派生类继承重写  
 ```c
-  class Base {
-  private:
-      virtual void fun() { std::cout << "Base Fun" << std::endl; }
-  public:
-      virtual void cun() { std::cout << "Base Cun" << std::endl; }
-      friend int main();
-  };
+class Base {
+ private:
+     virtual void fun() { std::cout << "Base Fun" << std::endl; }
+ public:
+     virtual void cun() { std::cout << "Base Cun" << std::endl; }
+     friend int main();
+ };
 
-  class Derived : public Base {
-  public:
-      void fun() { std::cout << "Derived Fun" << std::endl; }
-      void cun() { std::cout << "Derived Cun" << std::endl; }
-  };
+ class Derived : public Base {
+ public:
+     void fun() { std::cout << "Derived Fun" << std::endl; }
+     void cun() { std::cout << "Derived Cun" << std::endl; }
+ };
 
-  int main()
-  {
-      Base *ptr = new Derived;
-      Derived *ptest = new Derived;
-      ptr->cun(); // 调用派生类
-      ptr->fun(); // 调用派生类
-      // 原因：动态束定是运行期间才确定，访问权限是编译时确定的
-      return 0;
-  }
-```
+ int main()
+ {
+     Base *ptr = new Derived;
+     Derived *ptest = new Derived;
+     ptr->cun(); // 调用派生类
+     ptr->fun(); // 调用派生类
+     // 原因：动态束定是运行期间才确定，访问权限是编译时确定的
+     return 0;
+ }
+```  
+  
+  
+
 
 # 网易游戏1面  
 
@@ -35,7 +39,7 @@
 1）lib：编译阶段使用，要把内容放到程序中，索引和实现都在其中；  
 2）dll+lib：lib索引信息，记录了dll中函数的入口和位置，编译阶段把索引放入程序中，dll中包括了函数具体实现内容，dll在程序运行中被用到；  
 2.虚表与虚指针在内存中的位置  
-https://www.cnblogs.com/wangxiaobao/p/5850949.html 内存模型  
+https://www.cnblogs.com/wangxiaobao/p/5850949.html 内存模型  
 1）虽然基类中私有的不能使用，但是内存结构中仍然会继承，也就解释了基类中私有的虚函数仍然能够被重写  
 2）只有虚函数（包括继承的而没有重写的）地址才会记入虚表  
 3）虚指针和类内其他变量相同的位置，栈或者堆  
@@ -49,7 +53,8 @@ https://www.cnblogs.com/wangxiaobao/p/5850949.html 内存模型
 2）inline是函数，要做类型检查  
 3）define是字符串替换，inline是展开代码，直接嵌入，而不需要函数调用跳转  
 5.线程通信方式  
-1）锁 2）信号量  
+1）锁   
+2）信号量   
 6.关系数据库与非关系数据库有哪些，其区别有哪些？  
 1）关系型数据库：  
 满足ACID特性，以表的结构进行存储  
@@ -85,10 +90,10 @@ AVL严格按照平衡二叉树去旋转，可能会导致更多旋转操作；
 left join  
 从左表(table_name1)那里返回所有的行，即使右表(table_name2)中没有匹配的行  
 ```sql
-  SELECT column_name(s)
-  FROM table_name1
-  LEFT JOIN table_name2 
-  ON table_name1.column_name=table_name2.column_name
+ SELECT column_name(s)
+ FROM table_name1
+ LEFT JOIN table_name2 
+ ON table_name1.column_name=table_name2.column_name
 ```
 union  
 合并多个select语句结果集，select必须拥有  
@@ -99,22 +104,18 @@ union
 添加指针的辅助类作为私有成员记录智能指针所指的地址和次数  
 不能使用static进行计数，否则会导致只能拥有一种实例  
 ```c
-  class U_Ptr                                  
-  {
-  private:
+ class U_Ptr                                  
+ {
+ private:
 
-      friend class SmartPtr;      
-      U_Ptr(Point *ptr) :p(ptr), count(1) { }
-      ~U_Ptr() { delete p; }
+     friend class SmartPtr;      
+     U_Ptr(Point *ptr) :p(ptr), count(1) { }
+     ~U_Ptr() { delete p; }
 
-      int count;   
-      Point *p;                                                      
-  };
+     int count;   
+     Point *p;                                                      
+ };
 ```
 https://www.cnblogs.com/QG-whz/p/4777312.html  
 3.快排  
 4.整型数字转换为字符串  
-
-
-
-
