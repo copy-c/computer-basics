@@ -1,0 +1,149 @@
+# 计算机基础  
+## 信息存储与表示  
+1.信息存储  
+1）字节（byte）  
+最小的可寻址的最小单位（8位的块）>> 1字节 = 8位  
+每个字节都由一个唯一的数字来标识，也就是叫做地址
+2）字  
+整数和指针数据的标称大小，虚拟地址是通过一个字来编码，所以字决定了虚拟地址空间的最大大小
+32位系统：2^32B(字节) = 4 * 2^20 KB = 4 * 2^10 MB = 4 GB
+
+# C++相关  
+## string相关  
+1.字符串转换问题  
+字符串到数字 std::stoi()   
+数字到字符串 std::to_string()  
+2.字符串流处理  
+数据流读：istringstream >> ： 读时候以" "为分割符  
+数据流写：ostringstream  <<   
+```c
+    string str="i an a boy";  
+    istringstream is(str);  
+    string s;  
+    while(is>>s)  
+    {  
+        cout<<s<<endl;  
+    }  
+ ```
+
+## 类概念相关  
+1.空类的大小  
+（sizeof） = 1，声明类型的实例时，必须在内存中占有一定的内存  
+2.运算符重载  
+1）参数个数  
+当重载为类的成员函数时，函数的参数个数比原来参与运算的运算数少一个：重载一元运算符没有参数、重载二元运算符只有一个参数；比如，a + b 的参数为1个，a = b 的参数为1个  
+当重载为类的友元函数时，参数个数与原运算数个数相同，因为没有this指针  
+2）<<和>>只能用友元函数来重载  
+为了保证使用cin或者cout  
+3.写自己的string类  
+```c
+class MyString 
+{
+public:
+	MyString(const char *str);
+	MyString(const MyString &other);
+	MyString &operator =(const MyString &other);
+	~MyString();
+private:
+	char *data_;
+};
+ 
+MyString::MyString(const char *str) // str中已经包含了空的情况
+{
+	if (str == nullptr)
+	{
+		data_ = new char[1];
+		data_[0] = '\0';
+	}
+	else
+	{
+		int length = strlen(str); // 到'\0'停止，因此要开length+1的长度
+		data_ = new char[length + 1];
+		strcpy(data_, str);
+	}
+}
+ 
+// 拷贝构造函数啊，就是用来构造用的啊。因此不需要再初始化成员变量
+// string a = b; 也是拷贝构造函数
+MyString::MyString(const MyString &other) 
+{
+	int length = strlen(other.data_);
+	this->data_ = new char[length + 1];
+	strcpy(this->data_, other.data_);
+}
+ 
+MyString& MyString::operator =(const MyString &other) // = 意味着之前已经有值了
+{
+	if (&other == this) return *this;
+ 
+	// 
+	delete[]this->data_;
+ 
+	int length = strlen(other.data_);
+	this->data_ = new char[length + 1];
+	strcpy(this->data_, other.data_);
+ 
+	return *this; // 这样返回可以做复合操作
+}
+ 
+MyString::~MyString()
+{
+	delete[] data_;
+}
+```
+
+4.构造函数与析构函数  
+1）  
+构造函数是否能为虚函数：不能，构造函数的意义就是把这个类型给创建起来，地基都没有了谈什么  
+析构函数是否能为虚函数：如果基类有派生类，则必须，否则会导致派生类的析构函数不能执行  
+2）  
+派生类构造函数调用重写函数：可以表现多态性 （说明构造函数执行前虚指针与虚表已经完成）  
+派生类析构函数调用重写函数：可以表现多态性  
+3）  
+若构造函数与析构函数为私有函数  
+构造函数和析构函数的调用是外部调用，因此设置为私有意味着不能完成实例化，但是可以通过static单例的方式创建在堆上  
+5.类内成员变量初始化  
+```c
+class Test
+{
+public:
+    Test() : y(1), r(y), d(3){} //对于常量型成员变量和引用型成员变量，必须通过参数化列表的方式进行初始化。
+    ~Test(){}
+ 
+    int y;      //普通变量成员
+    int &r;     //引用成员变量,C11之前必须通过参数初始化列表进行初始化
+    const int d;    //常量成员变量，C11之前必须通过参数初始化列表进行初始化
+    static int c;   //静态成员变量，不属于类的实例，必须在类外部定义实现
+    static const int x = 2.1;   //静态常量整型成员变量
+    static const int xx;        //静态常量整型成员变量声明
+};
+  
+const int Test::xx = 4; //静态常量整型成员变量定义
+int Test::c = 2;
+```
+
+6.类实例化的过程  
+1）分配空间  
+2）初始化  
+https://blog.csdn.net/gukesdo/article/details/7514080  
+7.虚函数与虚表  
+1）同一个类的所有实例的虚指针都指向同一个虚表地址  
+2）虚指针初始化与参数初始化一起执行，完成后再执行构造函数{ }里面的内容  
+
+## 内存分配相关
+1.malloc()  
+1）内存是块状链表形式：头部包括自身指针、下一块指针、内存大小  
+2）申请：从空闲的链表中拿到，若大小合适直接从空闲链表中取下；若大小太大，则根据申请大小修改内存头部一部分留在空闲链表，一部分拿下来  
+3）释放：扫描空闲链表寻找合适的位置，若存在相邻的空闲块，则进行合并，减少碎片  
+
+## 关键字  
+1.sizeof() // 求类型大小的关键字，可以省略括号  
+1）数组：int[10] a; -> sizeof(a) // 10*4 = 40  
+2）其他为类型的字节大小 int *a; -> sizeof(a) // 4  
+3）若数组作为函数的参数进行传参时，数组会自动退化为指针  
+int GetSize(int data[]) { sizeof(data); } // 此时求的是指针的大小  
+
+## C++11 
+1.NULL与nullptr  
+NULL在编译时会被替换为0，因此会导致函数默认值的多义；  
+nullptr仅表示空指针  
