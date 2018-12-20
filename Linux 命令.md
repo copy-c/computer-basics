@@ -10,3 +10,7 @@ sudo vi ~/.bashrc
 export PATH=$PATH:/opt/local/bin:/opt/local/sbin  
 source ~/.bash_profile // 生效  
 echo $PATH // 查看是否生效  
+
+
+2.traceroute ip地址
+查看数据包到某地址经过的网络链路
