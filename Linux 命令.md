@@ -14,7 +14,8 @@ echo $PATH // 查看是否生效
 
 
 # linux命令
-## traceroute ip地址  
+## traceroute
+traceroute ip地址  
 查看数据包到某地址经过的网络链路  
 ## lsof 
 列出当前系统打开的文件  
