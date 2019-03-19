@@ -164,6 +164,24 @@ logging、database connection
 Liunx平台下使用thread、mutex、condition即可完成多线程编程任务  
 
 # 第六章 muduo网络库
+1.SocketApi   
+```c
+服务端                      客户端
+bind
+listing
+accept //等待客户端连接       connect //连接服务端
+recv         		    recv
+send                        send
+close                       close
+```
+2.TCP网络编程本质 —— 三个半事件  
+ - 连接的建立：服务端accpet && 客户端connect，一旦建立，两方都是平等的recv和send    
+ - 连接的断开：主动的断开和被动的断开  
+ - 消息到达，文件描述符处理
+ - 消息发送完毕
+
+# 第七章 muduo编程实例
+
 
 # 第九章 分布式系统
 ## 分布式系统中的心跳协议的设计
