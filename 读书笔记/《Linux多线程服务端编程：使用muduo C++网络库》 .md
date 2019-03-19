@@ -181,7 +181,31 @@ close                       close
  - 消息发送完毕
 
 # 第七章 muduo编程实例
-
+## 简单TCP实例
+1.time客户端  
+非阻塞的网络编程必须使用接收缓存，需要等待接收数据达到目标大小才可以处理  
+```c
+if (buf->readableBytes() >= sizeof(int32_t))
+{
+    const char* data = buf->peek(); 
+}
+```
+2.流量统计  
+```c
+void ChargenServer::onWriteComplete(const TcpConnectionPtr& conn)
+{
+  transferred_ += message_.size();
+  conn->send(message_);
+}
+void ChargenServer::printThroughput()
+{
+  Timestamp endTime = Timestamp::now();
+  double time = timeDifference(endTime, startTime_);
+  printf("%4.3f MiB/s\n", static_cast<double>(transferred_)/time/1024/1024); // message的size就是char的大小，就是一个字节大小
+  transferred_ = 0;
+  startTime_ = endTime;
+}
+```
 
 # 第九章 分布式系统
 ## 分布式系统中的心跳协议的设计
