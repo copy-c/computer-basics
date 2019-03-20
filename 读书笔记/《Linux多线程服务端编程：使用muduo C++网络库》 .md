@@ -183,7 +183,7 @@ close                       close
 3.**线程模型等核心问题**  
  - even loop是non-blocking网络编程的核心，且和IO multiplexing（实质为当前线程的复用，让IO阻塞在系统自己的调用上）一起使用。类似窗口程序不能阻塞窗口  
  - even loop + non-blocking 必须使用buffer，output buffer不能在write上阻塞，直接send继续执行；input buffer收到的数据尚不够构成一条完整消息，等完整消息后再通知业务逻辑    
- - task thread <----> codec + buffer <----> even loop + non-blocking + level trigger
+ - task thread <-----> codec <----> buffer <----> even loop + non-blocking + level trigger
  
 
 # 第七章 muduo编程实例
