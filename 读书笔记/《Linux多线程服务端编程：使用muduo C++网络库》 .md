@@ -214,6 +214,19 @@ void ChargenServer::printThroughput()
 ```
 ## Buffer类的设计与使用
 
+# 第八章 muduo网络库设计与实现
+## 
+```c
+Timestamp PollPoller::poll(int timeoutMs, ChannelList* activeChannels)
+{
+  int numEvents = ::poll(&*pollfds_.begin(), pollfds_.size(), timeoutMs); 
+  if (numEvents > 0)
+  {
+    fillActiveChannels(numEvents, activeChannels); // 需要遍历所有的fd，找到有IO活动的fd，pfd->revents表示具体活动
+  }
+}
+```
+
 
 # 第九章 分布式系统
 ## 分布式系统中的心跳协议的设计
