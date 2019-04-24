@@ -60,4 +60,18 @@ next(it)
 lambda [arg1 [,arg2,.....argn]]:expression  
 
 # 类  
+```python
+1.命名方法
+1）特殊成员
+__xxx__ 
+  构造函数
+  def __init__(self, args1, args2):
+2）保护成员
+_xxx 
+3）私有成员
+__xxx 
+4）避免与关键字冲突
+xx_
 
+```
+## 
