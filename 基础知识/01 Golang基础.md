@@ -69,15 +69,6 @@ string的指针可以改变，但是指向的内容是只读的，不能改变
 slice是数组的抽象  
 4.编译器自动选择在栈上还是在堆上分配局部变量,并不是由var还是new声明变量的方式决定的
 
-# 标准包
-## fmt  
-格式化输出、接收输入等  
-Println 输出一行  
-## os
-len(os.Args)  
-os.Args[0]
-
-
 # 基本数据结构
 ## 数组
 1.数组是值语义，一个数组变量代表整个数组，并不是指向第一个元素的指针，而是完整的值  
@@ -110,4 +101,80 @@ a = append(a[:i], append([]int{x}, a[i:]...)...)     // 在第i个位置插入x
 a = a[:len(a)-N]   		// 删除尾部N个元素
 a = a[N:] 						// 删除开头N个元素
 a = append(a[:0], a[N:]...) // 删除开头N个元素
+```
+
+# cgo
+## 设置
+1.import "C"  
+import "C"语句则表示使用了CGO特性，紧跟在这行语句前面的注释是正常的C语言代码。 —— 注释的大小全部加入了“C”这个包中  
+2.#cgo
+注释中加入#cgo  
+设置编译阶段和链接阶段的相关参数  
+// #cgo CFLAGS: -DPNG_DEBUG=1 -I./include  // 定义相关宏和指定头文件检索路径
+// #cgo LDFLAGS: -L/usr/local/lib -lpng  // 指定库文件检索路径和要链接的库文件
+
+## 类型转换
+1.传参：需要将go语言中的类型强制转换为c语言中的类型 v:= 1 C.int(v)  
+2.指针: *C.char  
+3.结构体: C.struct_xxx，若成员名字是go的关键词，那么可以通过名字前面加下划线进行访问  
+4.字符串:  
+```go
+func C.CString(string) *C.char 	  // Go string to C string
+func C.GoString(*C.char) string   // C string to Go string
+```
+5.指针  
+1）指针到指针  
+unsafe.Pointer指针类型 == C语言中的void*类型的指针  
+任何类型的指针都可以通过强制转换为unsafe.Pointer指针类型去掉原有的类型信息，然后再重新赋予新的指针类型而达到指针间的转换的目的。  
+2）数值到指针，反之也成立  
+a.int32 -> uintptr  
+b.uintprt -> unsafe.Pointer  
+c.unsafe.Pointer -> *C.char  
+6.枚举
+若枚举有别名，则直接使用C.别名  
+若枚举没有别名，则使用C.enum_名称  
+
+# 标准包
+## fmt  
+格式化输出、接收输入等  
+Println 输出一行  
+## os
+len(os.Args)  
+os.Args[0]
+## string
+1.字符串拼接 —— 由于字符串只读不能改变，修改会导致大量内存操作  
+strings.Builder  
+
+
+
+# 例子
+```go
+func strWithout3a3b(A int, B int) string {
+	var res strings.Builder
+	res.Grow(A+B)
+
+	a, b := byte('a'), byte('b')
+
+	if A < B {
+		A, B = B, A
+		a, b = b, a
+	}
+
+	for A > 0 {
+		res.WriteByte(a)
+		A--
+
+		if A > B {
+			res.WriteByte(a)
+			A--
+		}
+
+		if B > 0 {
+			res.WriteByte(b)
+			B--
+		}
+	}
+
+	return res.String()
+}
 ```
