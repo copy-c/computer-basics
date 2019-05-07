@@ -144,10 +144,18 @@ os.Args[0]
 ## string
 1.字符串拼接 —— 由于字符串只读不能改变，修改会导致大量内存操作  
 strings.Builder  
+## sort
+1.sort.Search(n int, f func(int) bool) int  
+返回在0<=i<n范围内，让func为true的最小值，若不存在则返回n
 
+# 常用
+## 关键字
+len  
+range  
+## 遍历
+for i : xx // python c11  
 
-
-# 例子
+## 实例
 ```go
 func strWithout3a3b(A int, B int) string {
 	var res strings.Builder
