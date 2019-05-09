@@ -1,7 +1,11 @@
 #  语言基础
 ## 基本数据结构  
 1）[] // 可变  
-
+初始化  
+```python
+ multilist = [[1 for col in range(3)] for row in range(2)]
+ [[1, 1, 1], [1, 1, 1]]
+```
 2）() // 不可变  
 ```python
 # 定义
