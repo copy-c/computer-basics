@@ -5,8 +5,6 @@
  1.初始化
  multilist = [[1 for col in range(3)] for row in range(2)]
  [[1, 1, 1], [1, 1, 1]]
- 2.切片替换
- a[:] = xx
 ```
 2）() // 不可变  
 ```python
@@ -23,7 +21,6 @@ dict = { 'abc':123, 98.6:37 }
 dict['abc'] = 1
 # 新增
 dict['new'] = 1
-
 # 删除
 del dict  
 del dict['abc']
@@ -44,6 +41,17 @@ a = {'a', 'r', 'b', 'c', 'd'}
 # 成员运算符 in
 "H" in a => True
 
+```
+## 切片
+```python
+1.基本
+[start:end:step] // end下标的值访问不到
+if step > 1
+[start:end] 从start开始从左向右遍历
+else 
+[start:end:-1] 从start开始从右向左遍历
+2.翻转
+a[:] = a[::-1] // 翻转并替换
 ```
 ## 运算符  
 1.算数运算符
@@ -100,10 +108,8 @@ n = deepcopy(m)
 ## 字符串相关　
 1.切片转换为字符串  
 "x".join(ans) // 使用x作为单词之间的连接符      
-2.翻转  
-[::-1]
-3.删除前后的字符  
+2.删除前后的字符  
 strip()  
-4.分开  
+3.分开  
 splice()  
 
