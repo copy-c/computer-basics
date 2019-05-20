@@ -31,10 +31,16 @@ dict.clear()
 ```
 4）{} // set  
 ```python
+# 定义
 set() or { }
 a = set('abracadabra') // {'a', 'r', 'b', 'c', 'd'}
 a = {'a', 'r', 'b', 'c', 'd'}
-
+# 交集
+x & y
+# 并集
+x | y
+# 差集
+x - y
 ```
 5）字符串  
 ```python
