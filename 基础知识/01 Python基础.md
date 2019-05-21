@@ -21,6 +21,7 @@ dict = { 'abc':123, 98.6:37 }
 dict['abc'] = 1
 # 新增
 dict['new'] = 1
+// 新增和更新要分开，不能使用自增去新增
 # 删除
 del dict  
 del dict['abc']
@@ -28,6 +29,12 @@ del dict['abc']
 dict.clear()
 # Tips
 元素可以是任何类型，包括[] ()等，但是[]不能作为键值
+# 键值
+map_.keys()  
+# value
+map_.values()
+# 键值对
+map_.items()
 ```
 4）{} // set  
 ```python
