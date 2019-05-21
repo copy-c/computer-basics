@@ -22,6 +22,12 @@ dict['abc'] = 1
 # 新增
 dict['new'] = 1
 // 新增和更新要分开，不能使用自增去新增
+dicts = {}
+for i in nums1:
+  if i in dicts:
+    dicts[i] += 1
+  else:
+    dicts[i] = 1
 # 删除
 del dict  
 del dict['abc']
