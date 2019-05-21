@@ -108,7 +108,6 @@ xx_
 2.使用
 s = Test()
 ```
-## 
 
 # 概念 
 ## 拷贝相关
@@ -122,6 +121,14 @@ n = copy(m)
 3.深拷贝
 n = deepcopy(m)
 ```
+
+# 基本库
+## collections —— 额外数据结构
+1.Counter 计数器  
+2.deque 双端队列  
+3.OrderedDict 有序字典  
+{} 采用hash，无序的  
+
 
 # 常用技巧
 ## 字符串相关　
