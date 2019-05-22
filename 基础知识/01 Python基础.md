@@ -28,6 +28,8 @@ for i in nums1:
     dicts[i] += 1
   else:
     dicts[i] = 1
+// 或者使用指定默认值
+ab_map[i] = ab_map.get(i, 0) + 1 // 若不存在map[i]的值,那么返回默认值
 # 删除
 del dict  
 del dict['abc']
