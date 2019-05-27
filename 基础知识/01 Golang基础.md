@@ -91,16 +91,20 @@ for i, v := range a // i是 index、v是 value
 1.在判断一个切片是否为空时，一般通过len获取切片的长度来判断，一般很少将切片和nil值做直接的比较。  
 ```go
 定义
-a []int               // nil切片, 和 nil 相等, 一般用来表示一个不存在的切片
+var a []int               // nil切片, 和 nil 相等, 一般用来表示一个不存在的切片
 b = []int{}           // 空切片, 和 nil 不相等, 一般用来表示一个空的集合
 c = []int{1, 2, 3}    // 有3个元素的切片, len和cap都为3
 d = make([]int, 2, 3) // 有2个元素的切片, len为2, cap为3
 添加
 a = append(a[:i], append([]int{x}, a[i:]...)...)     // 在第i个位置插入x
 删除
-a = a[:len(a)-N]   		// 删除尾部N个元素
-a = a[N:] 						// 删除开头N个元素
+a = a[:len(a)-N]            // 删除尾部N个元素
+a = a[N:]                   // 删除开头N个元素
 a = append(a[:0], a[N:]...) // 删除开头N个元素
+清空
+a = a[:0]
+引用
+a = a[:]
 ```
 
 # cgo
