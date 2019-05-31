@@ -9,14 +9,16 @@ https://chai2010.cn/advanced-go-programming-book/ch2-cgo/ch2-01-hello-cgo.html
 6.类似python的切片操作  
 7.slice
 
-# 关键字
+# 基本语法
+## 关键字
 1.nil 代替 NULL  
 2.由func、var、const、type四种关键字组成  
 3.new 和 make 区别  
 make 只能用于 slice, map, channel  
 new(T) 返回的是 T 的指针  
-
-# 控制结构
+4.len求切片长度  
+5.
+## 控制结构
 if switch for 没有while  
 1.if  
 if 条件不需要括号  
@@ -31,52 +33,42 @@ for {} // 无限循环
 ## 类型声明
 声明必须以保留字开头，类型位于变量名后   
 ```go
-const N = 1024 //常量
-
+1.常量
+const N = 1024 
+2.结构体
 type T struct {
 	x,y int
-} //新类型
-var t1 *T = new(T)
-t2 := new(T) // 简易复制，表示左边的变量与右边类型相同
-var t3 *T = t2
-
+}
+3.变量
+var x int
 var x int = 1
 var x = 1 // 若可以推断则省略类型
 x := 1 // x必须是没有被使用过
-
+4.指针
+var t1 *T = new(T)
+t2 := new(T) // 简易复制，表示左边的变量与右边类型相同
+var t3 *T = t2
+5.切片
 var a []int = make([]int, len) // []int len capacity
 a := []int{0,1,2,3,4,5,6,7,8} // 切片 类似python操作
 a := make([]int,0,5) 
-
+6.函数
 func f (i int) float {}
 func f2 (i int)(float,int) {}
 ```
 
-# 泛型
-```go
-var a[5] string //字符串数组
-var s[] string //字符串切片
-var m map[int]string //map
-var c chan int //管道
-
-f := stacj.get.(float) //cast
-```   
-
 # 基本数据结构
-## 数组
-1.数组是值语义，一个数组变量代表整个数组，并不是指向第一个元素的指针，而是完整的值  
-2.使用时为了避免整个值的复制，传递指向数组的指针  
+## 常量
+1.常量间的所有算术运算,逻辑运算和比较运算的结果也是常量,对常量的基本函数调用也是常量  
+len、cap、real、imag、complex和unsafe.Sizeof  
 ```go
-var s1 = [2]string{"hello", "world"}
-
-var a = [...]int{1, 2, 3} // a 是一个数组
-var b = &a                // b 是指向数组的指针
-fmt.Println(a[0], a[1])   // 打印数组的前2个元素
-fmt.Println(b[0], b[1])   // 通过数组指针访问数组元素的方式和数组类似
-
-for i := range a
-for i, v := range a // i是 index、v是 value
+const	(
+	_	=	1	<<	(10	*	iota) // 1 << n = 2^n
+	KiB	//	1024
+	MiB	//	1048576
+)
 ```
+2.常量可以是无类型的,并且可以提供非常高的精度  
 ## 字符串
 1.字符串元素不能修改，是一个只读字节数组    
 2.字符串虽然不是切片，但是支持切片操作  
@@ -86,11 +78,20 @@ s := "Hello World" -> 指向 hello world
 hello := s[:5] -> 指向s的头 长度为hello
 world := s[7:] -> 指向s的world,长度为world
 ```
+## 数组 - 不重要
+1.数组是值语义，一个数组变量代表整个数组，并不是指向第一个元素的指针，而是完整的值 - 与切片的区别  
+2.使用时为了避免整个值的复制，传递指向数组的指针  
+3.数组的每一个元素都被初始化为对应的0值  
+4.长度一定,尽量使用切片代替数组  
+```go
+q	:=	[...]int{1,	2, 3} // ...表示数组的长度是由初始化值的个数来计算,若没有大小那么就是一个切片
+```
 ## 切片
-1.在判断一个切片是否为空时，一般通过len获取切片的长度来判断，一般很少将切片和nil值做直接的比较。  
+1.切片由三部分组成:指针(指向第一个slice元素对应的底层数组元素的地址) + 长度 + 容量(底层类似c++ vector)
+2.在判断一个切片是否为空时，一般通过len获取切片的长度来判断    
 ```go
 1.定义
-var a []int           // nil切片, 和 nil 相等, 一般用来表示一个不存在的切片
+var a []int           // nil切片, 和 nil 相等, 因为是一个指针,所以可以这样用
 b = []int{}           // 空切片, 和 nil 不相等, 一般用来表示一个空的集合
 c = []int{1, 2, 3}    // 有3个元素的切片, len和cap都为3
 d = make([]int, 2, 3) // 有2个元素的切片, len为2, cap为3
@@ -106,7 +107,11 @@ a = a[:]
 6.使用
 类似python的方式,可以直接使用下标访问
 a[3:5]
+7.遍历 
+for i, v := range a {
+}
 ```
+## map
 
 # 多线程
 ## goroutine 
@@ -125,6 +130,7 @@ c <- 2  输入
 3）关闭  
 close(c)  
 ## 锁
+sync.Mutex
 ## 信号量
 sync.WaitGroup  
 ## 例子
@@ -152,6 +158,43 @@ func main() {
     time.Sleep(5 * time.Second)
 }
 ```
+
+# 标准包
+## 字符串相关
+### strings - 查询、替换、比较、截断、拆分和合并等  
+```go
+1.由于字符串只读不能改变，修改会导致大量内存操作,使用缓存    
+var res strings.Builder
+res.Grow(20) // 提前申请内存大小 
+2.查找  
+strings.LastIndex(s, "/") // 寻找字符最后出现的index  
+3.bytes和string相互转换  
+```go
+s	:=	"abc"
+b	:=	[]byte(s)
+s2	:=	string(b) // s2为只读
+```
+### bytes - 针对bytes[],提供strings相同的功能
+```gi
+1.同上第一条  
+bytes.Builder  
+```
+### strconv - 提供布尔型 整数型 浮点数 与对应字符串之间的转换 
+### unicode - 提供字符串类型(大小\数字)的判断和转换  
+```go
+1.IsDigit、IsLetter、IsUpper和IsLower 
+2.ToUpper和ToLower (strings也有)  
+```
+
+## fmt  
+格式化输出、接收输入等  
+Println 输出一行  
+## os
+len(os.Args)  
+os.Args[0]  
+## sort
+1.sort.Search(n int, f func(int) bool) int  
+返回在0<=i<n范围内，让func为true的最小值，若不存在则返回n
 
 # cgo
 ## 设置
@@ -183,33 +226,6 @@ c.unsafe.Pointer -> *C.char
 若枚举有别名，则直接使用C.别名  
 若枚举没有别名，则使用C.enum_名称  
 
-# 标准包
-## 字符串相关
-### strings - 查询、替换、比较、截断、拆分和合并等  
-1.由于字符串只读不能改变，修改会导致大量内存操作,使用缓存    
-strings.Builder  
-
-### bytes - 针对bytes[],提供strings相同的功能
-1.同上第一条  
-bytes.Builder  
-
-### strconv - 提供布尔型 整数型 浮点数 与对应字符串之间的转换 
-
-### unicode - 提供字符串类型(大小\数字)的判断和转换 
-
-
-## fmt  
-格式化输出、接收输入等  
-Println 输出一行  
-## os
-len(os.Args)  
-os.Args[0]  
-
- 
-## sort
-1.sort.Search(n int, f func(int) bool) int  
-返回在0<=i<n范围内，让func为true的最小值，若不存在则返回n
-
 # 常用
 ## 注意
 1.若多返回值，只需要第二个，可以将前一个值使用 '_' 代替  
@@ -218,11 +234,6 @@ os.Args[0]
 string的指针可以改变，但是指向的内容是只读的，不能改变    
 slice是数组的抽象  
 4.编译器自动选择在栈上还是在堆上分配局部变量,并不是由var还是new声明变量的方式决定的
-## 关键字
-len  
-range  
-## 遍历
-for i : xx // python c11  
 ## 实例
 ```go
 func strWithout3a3b(A int, B int) string {
