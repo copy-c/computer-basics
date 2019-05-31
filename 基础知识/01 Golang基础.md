@@ -80,6 +80,12 @@ for i, v := range a // i是 index、v是 value
 ## 字符串
 1.字符串元素不能修改，是一个只读字节数组    
 2.字符串虽然不是切片，但是支持切片操作  
+3.使用写时复制  
+```go
+s := "Hello World" -> 指向 hello world
+hello := s[:5] -> 指向s的头 长度为hello
+world := s[7:] -> 指向s的world,长度为world
+```
 ## 切片
 1.在判断一个切片是否为空时，一般通过len获取切片的长度来判断，一般很少将切片和nil值做直接的比较。  
 ```go
@@ -178,15 +184,28 @@ c.unsafe.Pointer -> *C.char
 若枚举没有别名，则使用C.enum_名称  
 
 # 标准包
+## 字符串相关
+### strings - 查询、替换、比较、截断、拆分和合并等  
+1.由于字符串只读不能改变，修改会导致大量内存操作,使用缓存    
+strings.Builder  
+
+### bytes - 针对bytes[],提供strings相同的功能
+1.同上第一条  
+bytes.Builder  
+
+### strconv - 提供布尔型 整数型 浮点数 与对应字符串之间的转换 
+
+### unicode - 提供字符串类型(大小\数字)的判断和转换 
+
+
 ## fmt  
 格式化输出、接收输入等  
 Println 输出一行  
 ## os
 len(os.Args)  
-os.Args[0]
-## string
-1.字符串拼接 —— 由于字符串只读不能改变，修改会导致大量内存操作  
-strings.Builder  
+os.Args[0]  
+
+ 
 ## sort
 1.sort.Search(n int, f func(int) bool) int  
 返回在0<=i<n范围内，让func为true的最小值，若不存在则返回n
