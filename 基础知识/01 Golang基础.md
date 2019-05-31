@@ -17,7 +17,6 @@ https://chai2010.cn/advanced-go-programming-book/ch2-cgo/ch2-01-hello-cgo.html
 make 只能用于 slice, map, channel  
 new(T) 返回的是 T 的指针  
 4.len求切片长度  
-5.
 ## 控制结构
 if switch for 没有while  
 1.if  
@@ -86,7 +85,7 @@ world := s[7:] -> 指向s的world,长度为world
 ```go
 q	:=	[...]int{1,	2, 3} // ...表示数组的长度是由初始化值的个数来计算,若没有大小那么就是一个切片
 ```
-## 切片
+## 切片 - 底层数组的一种引用
 1.切片由三部分组成:指针(指向第一个slice元素对应的底层数组元素的地址) + 长度 + 容量(底层类似c++ vector)
 2.在判断一个切片是否为空时，一般通过len获取切片的长度来判断    
 ```go
@@ -111,7 +110,11 @@ a[3:5]
 for i, v := range a {
 }
 ```
-## map
+## map - 底层hash的一种引用
+```go
+1.定义
+args := make(map[string]int]
+```
 
 # 多线程
 ## goroutine 
