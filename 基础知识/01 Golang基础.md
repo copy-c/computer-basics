@@ -51,6 +51,7 @@ a := make([]int,0,5)
 func f (i int) float {}
 func f2 (i int)(float,int) {}
 ```
+
 # 泛型
 ```go
 var a[5] string //字符串数组
@@ -60,14 +61,6 @@ var c chan int //管道
 
 f := stacj.get.(float) //cast
 ```   
-
-# 注意
-1.若多返回值，只需要第二个，可以将前一个值使用 '_' 代替  
-2.map，slice，chan是引用类型，不需要传递指针的指针  
-3.slice和string区别  
-string的指针可以改变，但是指向的内容是只读的，不能改变    
-slice是数组的抽象  
-4.编译器自动选择在栈上还是在堆上分配局部变量,并不是由var还是new声明变量的方式决定的
 
 # 基本数据结构
 ## 数组
@@ -90,20 +83,68 @@ for i, v := range a // i是 index、v是 value
 ## 切片
 1.在判断一个切片是否为空时，一般通过len获取切片的长度来判断，一般很少将切片和nil值做直接的比较。  
 ```go
-定义
-var a []int               // nil切片, 和 nil 相等, 一般用来表示一个不存在的切片
+1.定义
+var a []int           // nil切片, 和 nil 相等, 一般用来表示一个不存在的切片
 b = []int{}           // 空切片, 和 nil 不相等, 一般用来表示一个空的集合
 c = []int{1, 2, 3}    // 有3个元素的切片, len和cap都为3
 d = make([]int, 2, 3) // 有2个元素的切片, len为2, cap为3
-添加
+2.添加
 a = append(a[:i], append([]int{x}, a[i:]...)...)     // 在第i个位置插入x
-删除
-a = a[:len(a)-N]            // 删除尾部N个元素
-a = a[N:]                   // 删除开头N个元素
-清空
+3.删除
+a = a[:len(a)-N]      // 删除尾部N个元素
+a = a[N:]             // 删除开头N个元素,其实是重新赋值
+4.清空
 a = a[:0]
-引用
+5.引用
 a = a[:]
+6.使用
+类似python的方式,可以直接使用下标访问
+a[3:5]
+```
+
+# 多线程
+## goroutine 
+## channel - 类似消息队列
+1.创建  
+ch := make(chan int, 64) // 引用类型  
+通道不带缓冲，发送方会阻塞直到接收方从通道中接收了值  
+如果缓冲区已满，需要等待直到某个接收方获取到一个值  
+2.方向  
+1）定义  
+c chan<- int // 向管道输入int类型  
+c <-chan int // 管道向外输出int类型
+2）使用  
+i := <-c  输出  
+c <- 2  输入  
+3）关闭  
+close(c)  
+## 锁
+## 信号量
+sync.WaitGroup  
+## 例子
+```go
+// 生产者: 生成 factor 整数倍的序列
+func Producer(factor int, out chan<- int) {
+    for i := 0; ; i++ {
+        out <- i*factor
+    }
+}
+// 消费者
+func Consumer(in <-chan int) {
+    for v := range in {
+        fmt.Println(v)
+    }
+}
+func main() {
+    ch := make(chan int, 64) // 成果队列
+
+    go Producer(3, ch) // 生成 3 的倍数的序列
+    go Producer(5, ch) // 生成 5 的倍数的序列
+    go Consumer(ch)    // 消费 生成的队列
+
+    // 运行一定时间后退出
+    time.Sleep(5 * time.Second)
+}
 ```
 
 # cgo
@@ -115,7 +156,6 @@ import "C"语句则表示使用了CGO特性，紧跟在这行语句前面的注�
 设置编译阶段和链接阶段的相关参数  
 // #cgo CFLAGS: -DPNG_DEBUG=1 -I./include  // 定义相关宏和指定头文件检索路径
 // #cgo LDFLAGS: -L/usr/local/lib -lpng  // 指定库文件检索路径和要链接的库文件
-
 ## 类型转换
 1.传参：需要将go语言中的类型强制转换为c语言中的类型 v:= 1 C.int(v)  
 2.指针: *C.char  
@@ -133,7 +173,7 @@ unsafe.Pointer指针类型 == C语言中的void*类型的指针
 a.int32 -> uintptr  
 b.uintprt -> unsafe.Pointer  
 c.unsafe.Pointer -> *C.char  
-6.枚举
+6.枚举  
 若枚举有别名，则直接使用C.别名  
 若枚举没有别名，则使用C.enum_名称  
 
@@ -152,12 +192,18 @@ strings.Builder
 返回在0<=i<n范围内，让func为true的最小值，若不存在则返回n
 
 # 常用
+## 注意
+1.若多返回值，只需要第二个，可以将前一个值使用 '_' 代替  
+2.map，slice，chan是引用类型，不需要传递指针的指针  
+3.slice和string区别  
+string的指针可以改变，但是指向的内容是只读的，不能改变    
+slice是数组的抽象  
+4.编译器自动选择在栈上还是在堆上分配局部变量,并不是由var还是new声明变量的方式决定的
 ## 关键字
 len  
 range  
 ## 遍历
 for i : xx // python c11  
-
 ## 实例
 ```go
 func strWithout3a3b(A int, B int) string {
