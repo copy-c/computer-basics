@@ -62,16 +62,23 @@ a := make([]int,0,5)
 func f (i int) float {}
 func f2 (i int)(float,int) {}
 ```
+## 函数
+1.如果一个函数将所有的返回值都显示的变量名,那么该函数的return语句可以省略操作
+```go
+func CountWordsAndImages(url string) (words, images int, err error) {
+  return
+}
+```
 
 # 基本数据结构
 ## 常量
 1.常量间的所有算术运算,逻辑运算和比较运算的结果也是常量,对常量的基本函数调用也是常量  
 len、cap、real、imag、complex和unsafe.Sizeof  
 ```go
-const	(
-	_	=	1	<<	(10	*	iota) // 1 << n = 2^n
-	KiB	//	1024
-	MiB	//	1048576
+const (
+  _ = 1 << (10 * iota) // 1 << n = 2^n
+  KiB // 1024
+  MiB // 1048576
 )
 ```
 2.常量可以是无类型的,并且可以提供非常高的精度  
@@ -90,7 +97,7 @@ world := s[7:] -> 指向s的world,长度为world
 3.数组的每一个元素都被初始化为对应的0值  
 4.长度一定,尽量使用切片代替数组  
 ```go
-q	:=	[...]int{1,	2, 3} // ...表示数组的长度是由初始化值的个数来计算,若没有大小那么就是一个切片
+q := [...]int{1, 2, 3} // ...表示数组的长度是由初始化值的个数来计算,若没有大小那么就是一个切片
 ```
 ## 切片 - 底层数组的一种引用
 1.切片由三部分组成:指针(指向第一个slice元素对应的底层数组元素的地址) + 长度 + 容量(底层类似c++ vector)
@@ -128,8 +135,8 @@ args[key] = value
 
 3.注意
 不能对元素取地址,因为内存地址可能会变换
-
 ```
+
 
 # 多线程
 ## goroutine 
@@ -188,9 +195,9 @@ res.Grow(20) // 提前申请内存大小
 strings.LastIndex(s, "/") // 寻找字符最后出现的index  
 3.bytes和string相互转换  
 ```go
-s	:=	"abc"
-b	:=	[]byte(s)
-s2	:=	string(b) // s2为只读
+s := "abc"
+b := []byte(s)
+s2 := string(b) // s2为只读
 ```
 ### bytes - 针对bytes[],提供strings相同的功能
 ```gi
