@@ -16,6 +16,13 @@ https://chai2010.cn/advanced-go-programming-book/ch2-cgo/ch2-01-hello-cgo.html
 3.new 和 make 区别  
 make 只能用于 slice, map, channel  
 new(T) 返回的是 T 的指针  
+```go
+new:
+p := &Point{1, 2}
+等价于
+pp := new(Point)
+*pp = Point{1, 2}
+```
 4.len求切片长度  
 ## 控制结构
 if switch for 没有while  
