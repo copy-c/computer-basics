@@ -133,7 +133,7 @@ args[key] = value
 
 # 多线程
 ## goroutine 
-## channel - 类似消息队列
+## channel - 引用
 1.创建  
 ch := make(chan int, 64) // 引用类型  
 通道不带缓冲，发送方会阻塞直到接收方从通道中接收了值  
