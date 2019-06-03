@@ -116,6 +116,9 @@ for i, v := range a {
 args := make(map[string]int]
 2.删除
 delete(args, key) // 失败时返回查找类型的默认初值,因此查找失败也没关系
+3.create
+args[key] = value
+
 3.注意
 不能对元素取地址,因为内存地址可能会变换
 
