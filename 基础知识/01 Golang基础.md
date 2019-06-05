@@ -69,6 +69,12 @@ func CountWordsAndImages(url string) (words, images int, err error) {
   return
 }
 ```
+## 接口
+```go
+1.定义 - 接口也是一种类型,需要先定义再赋具体的结构体
+var m io.Writer // 此时m == nil - 接口值
+m = os.Stdout // 此时m才有具体的值 - 动态值
+```
 
 # 基本数据结构
 ## 常量
