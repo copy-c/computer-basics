@@ -141,3 +141,20 @@ strip()
 3.分开  
 splice()  
 
+# 网络
+```python
+class RequestHandler(BaseHTTPServer.BaseHTTPRequestHandler):
+ def do_GET(self):
+  if self.path == '/stats':
+  self.send_response(200)
+  self.end_headers()
+  self.wfile.write(getInfo(kStats))
+
+def runHttpServer():
+  httpd = BaseHTTPServer.HTTPServer(('0.0.0.0', kDefaultPort), RequestHandler)
+  httpd.serve_forever()
+
+if __name__ == '__main__':
+runStatsHttpThread = threading.Thread(target = runHttpServer, name = 'runStatsHttpServer')
+
+```
