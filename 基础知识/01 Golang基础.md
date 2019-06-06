@@ -253,6 +253,16 @@ unsafe.Pointer指针类型 == C语言中的void*类型的指针
 a.int32 -> uintptr  
 b.uintprt -> unsafe.Pointer  
 c.unsafe.Pointer -> *C.char  
+3)二维数组字符串指针转换  
+```go
+typedef struct SeiContent {
+    char** contents;
+    int count;
+} SeiContent;
+
+ptr := *(**C.char)(unsafe.Pointer(uintptr(unsafe.Pointer(c.contents)) + uintptr(i) * unsafe.Sizeof(*c.contents)))
+str := C.GoString(ptr)
+```
 6.枚举  
 若枚举有别名，则直接使用C.别名  
 若枚举没有别名，则使用C.enum_名称  
