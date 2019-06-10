@@ -226,6 +226,19 @@ os.Args[0]
 ## sort
 1.sort.Search(n int, f func(int) bool) int  
 返回在0<=i<n范围内，让func为true的最小值，若不存在则返回n
+## encoding/json
+```gp
+type seiInfo struct {
+	InsertTime float64  `json:"insertTime"`
+	Contents   []string `json:"contents"`
+}
+
+type seiInfos struct {
+	SeiInfo []seiInfo `json:"seiInfo"`
+}
+// 
+"seiInfo":{"insertTime":"xx", "contents":["a", "b"]}
+```
 
 # cgo
 ## 设置
