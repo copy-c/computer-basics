@@ -10,7 +10,8 @@
 虚拟地址 = 页号 + 偏移位
 使用位：记录是否被使用  
 脏位：若脏位被标记，说明内存中被更改，那么被置换时，需要将值写回内存，若没被标记，则可以直接丢弃  
-![](https://github.com/Coyp/CS-/blob/master/1529318601756.png?raw=true) 
+![](picture/memory_change.png)
+
 ### 内存页面置换算法  
 1.场景  
 当缺页时，操作系统接手从下级存储中寻找页  
@@ -39,13 +40,13 @@ pipe()创建
 #include <unistd.h>
 int pipe(int fd[2]);
 ```
-![](https://github.com/Coyp/CS-/blob/master/6.png?raw=true)  
+![](picture/process_relationship.png)  
 2.命名管道（FIFO）  
 1）特点  
 a. 去除了只能在父子进程中使用的限制 
 b.以一种特殊设备文件形式存在于文件系统中（很类似于文件的操作，write/open等等）  
 2）例子  
-![](https://github.com/Coyp/CS-/blob/master/7.png?raw=true)  
+![](picture/FIFO.png)  
 3.消息队列  
 消息的链接表，存放在内核中，一个消息队列由一个标识符（队列ID）来标识  
 1）相比于FIFO    
@@ -109,7 +110,7 @@ unlockA   unLockA
 ### 线程管理
 #### 基本知识
 1.线程的生命周期及状态转换  
-![](https://github.com/Coyp/CS-/blob/master/8.png?raw=true)  
+![](picture/thread.png)  
 创建：new  
 就绪：start( ) //  
 运行：run( ) //其中包含了这个线程的内容（程序体）、若run中代码执行完毕则线程结束、若直接调用run方法只是调用一个方法而已，程序中仍然只有一个主线程  
@@ -117,12 +118,12 @@ unlockA   unLockA
 https://blog.csdn.net/asdf_1024/article/details/78978437  
 #### 多线程编程
 1.java多线程编程  
-http://www.cnblogs.com/PerkinsZhu/p/7242247.html  
+<http://www.cnblogs.com/PerkinsZhu/p/7242247.html>  
 1）java提供的锁  
 synchronized锁 JVM层锁 隐式的获取锁  
 reentranLock锁 JDK层锁 lock trylock unlock  
 2.C++多线程编程 （C++11）  
-https://github.com/forhappy/Cplusplus-Concurrency-In-Practice  
+<https://github.com/forhappy/Cplusplus-Concurrency-In-Practice>
 #### 锁知识（包括一些数据库中的锁）  
 1）  
 共享锁：读操作时，多个线程只要申请过共享锁既可读取  
