@@ -167,14 +167,14 @@ sync.WaitGroup
 ## 例子
 ```go
 // 生产者: 生成 factor 整数倍的序列
-func Producer(factor int, out chan<- int) {
+func Producer(factor int, in chan<- int) {
     for i := 0; ; i++ {
-        out <- i*factor
+        in <- i*factor
     }
 }
 // 消费者
-func Consumer(in <-chan int) {
-    for v := range in {
+func Consumer(out <-chan int) {
+    for v := range out {
         fmt.Println(v)
     }
 }
@@ -200,18 +200,21 @@ res.Grow(20) // 提前申请内存大小
 2.查找  
 strings.LastIndex(s, "/") // 寻找字符最后出现的index  
 3.bytes和string相互转换  
-```go
 s := "abc"
 b := []byte(s)
 s2 := string(b) // s2为只读
 ```
+
 ### bytes - 针对bytes[],提供strings相同的功能
-```gi
+
+```go
 1.同上第一条  
 bytes.Builder  
 ```
+
 ### strconv - 提供布尔型 整数型 浮点数 与对应字符串之间的转换 
 ### unicode - 提供字符串类型(大小\数字)的判断和转换  
+
 ```go
 1.IsDigit、IsLetter、IsUpper和IsLower 
 2.ToUpper和ToLower (strings也有)  
