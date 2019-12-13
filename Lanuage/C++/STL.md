@@ -59,6 +59,7 @@
   - 内含 vector(数组实现二叉树)
 - priority_queue
   - 缺省状态是 heap 以 vector 为底
+  - 缺省转态是 大顶堆(less<int>), 小顶堆可用(greater<int>)
 
 关联容器
 
@@ -78,7 +79,8 @@
 
 ```c++
 1 
-vector<int> list
+vector<int> list(3) // 3个初值为 0 的数组
+vector<int> list{3} // 1 个赋值为 3 的值
 2 
 vector<int> list(7,3) // 7 个值为 3 的 int
 3 
@@ -88,6 +90,8 @@ vector<int> list1(list2.begin()+2, list2.end()-2);
 vector<int> list1(a, a+2); // 指针的意思 int a[2] = {1, 2};
 5
 vector<int> list1{0, 1, 2} = vector<int> list1 = {0, 1, 2}
+6 二维
+vector<vector<int>> dp(2, vector<int>(3)); //[2][3]
 ```
 
 #### 常用成员函数
