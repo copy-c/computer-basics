@@ -39,16 +39,13 @@
   - 双端队列（数组+类 map 结构 = 多组缓冲区连接）
 
 - stack // 配接器, 拓展
-
   ```c
   stack<int> // 默认底部为 deque
   stack<int, vector<int>>
   stack<int, list<int>>
   ```
 
-- queue // 配接器, 拓展
-  - 队列
-
+- queue - 队列 // 配接器, 拓展
   ```c
   queue<int> // 默认底部为 deque
   queue<int, list<int>>
@@ -120,10 +117,13 @@ vector<vector<int>> dp(2, vector<int>(3)); //[2][3]
 释放内存
 
 - shrink_to_fit()
+- vector<int>().swap(需要释放的 vector)
 
 大小
 
 - size() 返回当前n的大小  
+  - 返回值: size_type // 无符号整型, 那么和 int 作对比的时候小心反转
+  - ``` auto a = io.size()(若为空) - 1; 那么 auto 后的 a 是无符号的, 导致反转 ```
 - capacity() 返回当前capacity大小
 
 扩容 -> 导致迭代器失效
@@ -414,7 +414,7 @@ map.erase(value);
 2）使用迭代器
 for (iter = map.begin(); iter != map.end(); /**/)
 {
-  if (ok) map.erase(iter++); // 删除后迭代器会失效，在失效前先缓存好++
+  if (ok) map.erase(iter++); // 删除后该迭代器会失效，在失效前先缓存好++
   else iter++;
 }
 

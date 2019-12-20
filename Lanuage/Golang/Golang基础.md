@@ -1,6 +1,7 @@
 https://chai2010.cn/advanced-go-programming-book/ch2-cgo/ch2-01-hello-cgo.html  
 
 # c对比新增特性
+
 1.string boolean map等  
 2.闭包，函数同样当做一种变量(func)  
 3.struct拥有继承，可以继承所有成员变量和方法  
@@ -10,12 +11,15 @@ https://chai2010.cn/advanced-go-programming-book/ch2-cgo/ch2-01-hello-cgo.html
 7.slice
 
 # 基本语法
+
 ## 关键字
+
 1.nil 代替 NULL  
 2.由func、var、const、type四种关键字组成  
 3.new 和 make 区别  
 make 只能用于 slice, map, channel  
-new(T) 返回的是 T 的指针  
+new(T) 返回的是 T 的指针
+
 ```go
 new:
 p := &Point{1, 2}
@@ -23,53 +27,69 @@ p := &Point{1, 2}
 pp := new(Point)
 *pp = Point{1, 2}
 ```
+
 4.len求切片长度  
+
 ## 控制结构
+
 if switch for 没有while  
 1.if  
 if 条件不需要括号  
 2.switch  
 没有break分支也会结束  
-case中可以使用任何值，并且可以放置多个值    
+case中可以使用任何值，并且可以放置多个值  
 3.for  
-表达式不需要括号     
+表达式不需要括号  
 for xx;xx;xx {}  
-for i := range m {} == while   
-for {} // 无限循环   
+for i := range m {} == while  
+for {} // 无限循环  
+
 ## 类型声明
-声明必须以保留字开头，类型位于变量名后   
+
+声明必须以保留字开头，类型位于变量名后  
+
 ```go
 1.常量
-const N = 1024 
+const N = 1024
+
 2.结构体
 type T struct {
-	x,y int
+  x,y int
 }
+
 3.变量
 var x int
 var x int = 1
 var x = 1 // 若可以推断则省略类型
 x := 1 // x必须是没有被使用过
+
 4.指针
 var t1 *T = new(T)
 t2 := new(T) // 简易复制，表示左边的变量与右边类型相同
 var t3 *T = t2
+
 5.切片
 var a []int = make([]int, len) // []int len capacity
 a := []int{0,1,2,3,4,5,6,7,8} // 切片 类似python操作
-a := make([]int,0,5) 
+a := make([]int,0,5)
+
 6.函数
 func f (i int) float {}
 func f2 (i int)(float,int) {}
 ```
+
 ## 函数
+
 1.如果一个函数将所有的返回值都显示的变量名,那么该函数的return语句可以省略操作
+
 ```go
 func CountWordsAndImages(url string) (words, images int, err error) {
   return
 }
 ```
+
 ## 接口
+
 ```go
 1.定义 - 接口也是一种类型,需要先定义再赋具体的结构体
 var m io.Writer // 此时m == nil - 接口值
