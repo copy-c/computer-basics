@@ -128,8 +128,12 @@ vector<vector<int>> dp(2, vector<int>(3)); //[2][3]
 
 扩容 -> 导致迭代器失效
 
-- resize(int n) 若 n < size: 多出来的尾部元素将被析构 size < n < capacity: 调用构造函数填充 n >capacity: 扩容并填充  
-- reserve(int n) 直接将capacity扩充到n，避免自动多次分配，推荐一开始就做  
+- resize(int n)
+  - 若 n < size: 多出来的尾部元素将被析构
+  - size < n < capacity: 调用构造函数填充, 或 int  往上填 0
+  - n >capacity: 扩容并填充  
+- reserve(int n)
+  - 直接将capacity扩充到n，避免自动多次分配，推荐一开始就做  
 
 ### list
 

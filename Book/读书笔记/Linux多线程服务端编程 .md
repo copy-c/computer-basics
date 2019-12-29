@@ -33,6 +33,7 @@ weak_ptr::引用计数型，但是不增加对象的引用次数，像一个助�
 ## 条件变量 （condition variable）—— 等待原语
 1.java object 内置wait() notify() notifyAll()  
 2.BlockingQueue  
+
 ```c
 mudou::MutexLock mutex;
 mudou::Condition cond(mutex);
@@ -62,7 +63,9 @@ void enqueue(int x)
     cond.notify();
 }
 ```
+
 ## 使用pThread实现锁、卫兵锁、条件变量
+
 ```c
 class MutexLock : boost::noncopyable
 {
@@ -126,26 +129,29 @@ public::
 ## 单线程常用编程模型
 1.Reactor：non-blocking io + IO multiplexing  
 程序基本结构为：事件循环 + 事件驱动 + 事件回调  
+
 ```c
-	while (!done)
-	{
-		int timeout_ms = max(1000, getNextTimeCallback());
-		int retval = ::poll(fds, nfds, timeout_ms);
-		if (retval < 0)
-		{
-			// 处理错误，回调用户的error handler
-		}
-		else
-		{
-			// 处理到期的 timers，回调用户的timer handler
-			if (retval > 0)
-			{
-				// 处理IO事件，回调用户的IO event handle
-			}
-		}
-	}
+while (!done)
+{
+    int timeout_ms = max(1000, getNextTimeCallback());
+    int retval = ::poll(fds, nfds, timeout_ms);
+    if (retval < 0)
+    {
+        // 处理错误，回调用户的error handler
+    }
+    else
+    {
+        // 处理到期的 timers，回调用户的timer handler
+        if (retval > 0)
+        {
+            // 处理IO事件，回调用户的IO event handle
+        }
+    }
+}
 ```
+
 ## 多线程常用编程模型
+
 1.Reactor  
 2.线程池  
 使用任务队列实现 或 BlockingQueue  
@@ -229,12 +235,15 @@ Timestamp PollPoller::poll(int timeoutMs, ChannelList* activeChannels)
 
 
 # 第九章 分布式系统
+
 ## 分布式系统中的心跳协议的设计
+
 1.Tcp keepalive不能替代应用层心跳  
 原因：Tcp keepalive由操作系统探测，即使进程死锁或者阻塞，操作系统也会如常收发TCP keepalive消息  
 2.两个关键点  
 1）在工作线程发送，不能单独起一个心跳线程 —— 防止工作线程死锁或者阻塞后还继续发心跳  
 2）与业务消息用同一个连接，不能单独使用心跳连接
+
 ## 分布式系统部署、监控与进程管理
 1.分布式系统中服务程序的依赖关系  
 被依赖：可以通过TCP通信，通过netstat就可以知道被依赖的程序  
