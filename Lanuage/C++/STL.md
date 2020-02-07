@@ -23,7 +23,7 @@
 
 ## 1 容器
 
-### 分类
+### 底层数据结构
 
 序列式容器
 
@@ -39,6 +39,7 @@
   - 双端队列（数组+类 map 结构 = 多组缓冲区连接）
 
 - stack // 配接器, 拓展
+
   ```c
   stack<int> // 默认底部为 deque
   stack<int, vector<int>>
@@ -46,6 +47,7 @@
   ```
 
 - queue - 队列 // 配接器, 拓展
+
   ```c
   queue<int> // 默认底部为 deque
   queue<int, list<int>>
@@ -61,7 +63,7 @@
 关联容器
 
 - map
-  - 红黑树  
+  - 红黑树
   - 按照键值排序
 - set
   - 红黑树  
@@ -71,6 +73,12 @@
   - hash  
 
 ### vector
+
+特性
+
+- 支持高速随机访问
+- 高效尾端插入与删除 O(1)
+- 头部插入与删除 O(n)
 
 #### 初始化
 
@@ -86,7 +94,7 @@ vector<int> list1(list2) = vector<int> list1 = list2
 vector<int> list1(list2.begin()+2, list2.end()-2);
 vector<int> list1(a, a+2); // 指针的意思 int a[2] = {1, 2};
 5
-vector<int> list1{0, 1, 2} = vector<int> list1 = {0, 1, 2}
+vector<int> list1{0, 1, 2} = vector<int> list1 = {0, 1, 2} //c11
 6 二维
 vector<vector<int>> dp(2, vector<int>(3)); //[2][3]
 ```
@@ -131,11 +139,30 @@ vector<vector<int>> dp(2, vector<int>(3)); //[2][3]
 - resize(int n)
   - 若 n < size: 多出来的尾部元素将被析构
   - size < n < capacity: 调用构造函数填充, 或 int  往上填 0
-  - n >capacity: 扩容并填充  
+  - n > capacity: 扩容并填充  
 - reserve(int n)
   - 直接将capacity扩充到n，避免自动多次分配，推荐一开始就做  
 
+#### 常见问题
+
+1. vector.push_back() 平均复杂度为 O(1)
+    - 每次扩容+拷贝需要 O(N) 的时间复杂度
+    - 平摊开销
+
+2. 扩容方式
+    - 一般为 2 倍, 在 vs 下貌似 1.5 倍
+    - 若 2 倍仍然不够, 则继续增长
+
+3. at(i) 与 [i]
+    - 前者加入了越界检测, 为空则会抛出异常
+
 ### list
+
+特性
+
+- 高效前/后插入与删除操作
+- 随机访问效率低
+- 内存开销比 vector 大
 
 #### 构造
 
@@ -183,12 +210,16 @@ sort_heap(vec.begin(), end) // 全部排序
 插入
 
 ```c
-map<string, int> map_;
+map<string, int> map_ = {1,2};
 map_[string("a")] = 1;
-pair<string, int> value(string('b'), 2);
-map_.insert(value);
-
+map_.insert({"1", 10});
 ```
+
+复杂度
+
+- 插入: O(logN)
+- 查看: O(logN)
+- 删除: O(logN)
 
 ### hash_table
 
@@ -231,6 +262,7 @@ map_.insert(value);
 
 ### find() / find_if()
 
+- 效率: 顺序查找, O(n)
 find —— 值  
 find_if —— 函数
 
@@ -418,7 +450,7 @@ map.erase(value);
 2）使用迭代器
 for (iter = map.begin(); iter != map.end(); /**/)
 {
-  if (ok) map.erase(iter++); // 删除后该迭代器会失效，在失效前先缓存好++
+  if (ok) map.erase(iter++); // 删除后迭代器会保持原来的值, 因此需要缓存并++
   else iter++;
 }
 
