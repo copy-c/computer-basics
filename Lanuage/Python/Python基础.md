@@ -39,7 +39,9 @@ n = deepcopy(m)
 
 ```python
 # 1.初始化
-multilist = [[1 for col in range(3)] for row in range(2)]
+a = [0]*10 -> 十个 0
+
+multilist = [[0 for col in range(3)] for row in range(2)] -> 3 * 2
 
 # 2.切片操作  
 [start:end:step] // end下标的值访问不到

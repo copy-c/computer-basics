@@ -41,7 +41,7 @@ slice是数组的抽象
 4. len求切片长度  
 5. range
     - 值拷贝
-    - range string -> 迭代的是 Unicode 而不是 unit8, 因此返回的是 rune 类型(int); 且 index 可能不是连续的
+    - 当 range string 时, 迭代的是 Unicode, 遍历的值不是 unit8 而是 rune 类型(int), 则 index 可能不连续
 
 # 控制结构
 
@@ -111,7 +111,7 @@ const (
 
 ## 指针
 
-1.不能对指针(地址)进行加减操作
+1.不能对指针(地址)进行加减操作 -> 不同
 
 ## 字符串
 
@@ -134,6 +134,9 @@ for _, v := range []byte(data) {
 for _, ch := range str {
     // ch 类型是 rune <=> int32
 }
+
+// 字符串的拼接
+str = str + "a" // 单字符用 ""
 ```
 
 ## 切片 - 底层数组的一种引用
@@ -193,12 +196,8 @@ if _, ok := args[key]; ok {
 
 }
 
-5.遍历
-for 
-
 6.注意
 内存地址可能会变换, 删除或者扩容
-
 ```
 
 ## struct - 结构体

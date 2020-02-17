@@ -108,7 +108,7 @@ vector<vector<int>> dp(2, vector<int>(3)); //[2][3]
 
 存取
 
-- pop_back() // 弹出最后一个
+- pop_back() // 弹出最后一个 -> list 中是双向的, pop_front() / pop_back()
 - push_back() // 从后面放入
 
 删除
@@ -138,8 +138,8 @@ vector<vector<int>> dp(2, vector<int>(3)); //[2][3]
 
 - resize(int n)
   - 若 n < size: 多出来的尾部元素将被析构
-  - size < n < capacity: 调用构造函数填充, 或 int  往上填 0
-  - n > capacity: 扩容并填充  
+  - size < n < capacity: 调用构造函数填充, 或 int 往上填 0
+  - n > capacity: 扩容并用填充  
 - reserve(int n)
   - 直接将capacity扩充到n，避免自动多次分配，推荐一开始就做  
 
@@ -172,6 +172,11 @@ vector<vector<int>> dp(2, vector<int>(3)); //[2][3]
 
 - begin() -> (*node)->next;
 - end() -> node
+
+加入
+
+- push_front()
+- push_back()
 
 清除
 
@@ -225,7 +230,7 @@ map_.insert({"1", 10});
 
 结构
 
-![avatar](hash_table.png)
+![avatar](picture/hash_table.png)
 
 - 采用 vector 作为表格, 易拓展
 - 采用 list(非 stl) 作为链
@@ -312,7 +317,7 @@ vector.erase(remove(vector.begin(), vector.end(), x), vector.end())
 ```c
 // 都可以单独当做对象使用
 std::ostream_iterator<int> out(std::cout, " ")) // 每接受一个值, 后面跟 " "
-std::istream_iterator<int> 
+std::istream_iterator<int>
 
 // 输入和输出
 std::istream_iterator<int> is(cin); //绑定标准输入作为开始
@@ -328,7 +333,7 @@ std::copy(to_vector.begin(), to_vector.end(), std::ostream_iterator<int>(std::co
 ```c++
 template<T>
 struct cmd {
-  T operator() (const T& x, const T& y){ return x + y; }
+  T operator() (const T& x, const T& y) { return x + y; }
 }
 cmd<int> cmdObj; // 也可以被当做单独的对象使用
 cout << cmdObj(3, 4); // 单独拿出来也可以搞

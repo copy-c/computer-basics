@@ -26,7 +26,7 @@ leader + follower
 1）由leader接受客户端的值，生成一个proposql提案，并为proposql生成一个全局唯一ID，即ZXID  
 2）leader与每个follower之间都有一个队列，leader将消息发送到该队列  
 3）follower从队列拿出消息处理完后，向leader发送ack确认  
-4）leader收到半数以上的ack后，向所有follower发送commit 
+4）leader收到半数以上的ack后，向所有follower发送commit
 
 类似两段提交，都交给leader处理，再给follower  
 
