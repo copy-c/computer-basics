@@ -25,8 +25,6 @@
 
 ### 底层数据结构
 
-序列式容器
-
 - array (c11)
   - 直接存储对象本身，而不是像vector直接存储指针
 
@@ -35,8 +33,8 @@
 - list
   - 闭环双向链表
 - deque
-  - 头尾两段都可以插入和取出
   - 双端队列（数组+类 map 结构 = 多组缓冲区连接）
+  - 头尾两段都可以插入和取出
 
 - stack // 配接器, 拓展
 
@@ -79,15 +77,17 @@
 - 支持高速随机访问
 - 高效尾端插入与删除 O(1)
 - 头部插入与删除 O(n)
+- push_back() 平均复杂度为 O(1)
 
 #### 初始化
 
 ```c++
-1 
-vector<int> list(3) // 3个初值为 0 的数组
+1 // 初始化表
 vector<int> list{3} // 1 个赋值为 3 的值
-2 
+2 // 按数目 初始化
+vector<int> list(3) // 3个初值为 0 的数组
 vector<int> list(7,3) // 7 个值为 3 的 int
+vector<vector<int>> dp(2, vector<int>(3)); //[2][3]
 3 
 vector<int> list1(list2) = vector<int> list1 = list2
 4 
@@ -95,8 +95,6 @@ vector<int> list1(list2.begin()+2, list2.end()-2);
 vector<int> list1(a, a+2); // 指针的意思 int a[2] = {1, 2};
 5
 vector<int> list1{0, 1, 2} = vector<int> list1 = {0, 1, 2} //c11
-6 二维
-vector<vector<int>> dp(2, vector<int>(3)); //[2][3]
 ```
 
 #### 常用成员函数
@@ -230,10 +228,9 @@ map_.insert({"1", 10});
 
 结构
 
-![avatar](picture/hash_table.png)
-
 - 采用 vector 作为表格, 易拓展
 - 采用 list(非 stl) 作为链
+    ![avatar](picture/hash_table.png)
 
 删除
 
@@ -427,8 +424,8 @@ delete pf;
 
 ```c
 1) 借助std::remove()函数
-c.erase(std::remove(c.begin(), c.end(), value), c.end()) // remove()将==value的值都放到后面，但是不删除
-c.erase(std::remove_if(c.begin(), c.end(), function), c.end()) // remove_if() value替换成function
+c.erase(std::remove(c.begin(), c.end(), value)) // remove()将==value的值都放到后面，但是不删除
+c.erase(std::remove_if(c.begin(), c.end(), function) // remove_if() value替换成function
 2) 使用迭代器
 for (iter = vector.begin(); iter != vector.end(); /**/)
 {
