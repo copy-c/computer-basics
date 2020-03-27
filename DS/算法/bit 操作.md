@@ -1,4 +1,4 @@
-# leetcode相关
+# leetcode 相关
 
 ## 异或特性
 
@@ -17,3 +17,13 @@
 ## 删除最后一个 1
 
 1. n & (n-1)
+
+## 二进制向十进制的转换
+
+```go
+ans := 0
+for head != nil {
+    ans = ans * 2 + head->val;
+    head = head->next;
+}
+```

@@ -107,19 +107,21 @@ a.**独立于发送与接收进程，**进程终止时，消息队列及其内�
     - 不是单单为了提升性能, 为了充分利用 cpu 资源, 将阻塞变成非阻塞的手段
     - 避免阻塞, 若某个任务等待, 其他任务可以继续执行, 因为阻塞等待时间远大于线程切换时间
 
-3. 执行原理
+3. 线程安全：这个概念针对的是结构内部本身
+
+4. 执行原理
     - CPU是按时间片执行线程, 而不是时间点, 比如 A 执行一个时间片, 换上 B 去执行, 因此会有并发问题
 
-4. 目睹删除锁的原因
+5. 目睹删除锁的原因
     - 总的分发点, 每一个 peer 都要加解锁才能分发, 变成串行, 而次锁每次有 peer 变更就会被抢占, 导致阻塞
     - 分成每个 peer 内部处理, 就算被阻塞, 其他线程仍然能进行
 
-5. Java ConcurrentHashMap 相关
+6. Java ConcurrentHashMap 相关
     - 普通 hashMap 并发时, 进行 rehash 时会造成链表闭环, 导致 get 时候无限循环
         - 先链表, 长到一定程度, 变为红黑树
     - 分桶加锁与加总体锁的区别: 提高并发效率(同一个锁竞争的线程越少越好) -> 若阻塞等出现, 可以
 
-6. 锁
+7. 锁
     - 加锁让当前位置的操作串行化
 
 ## 线程间通信
@@ -148,7 +150,7 @@ Semaphore
 <http://www.cnblogs.com/PerkinsZhu/p/7242247.html>  
 1）java提供的锁  
 synchronized锁 JVM层锁 隐式的获取锁  
-reentranLock锁 JDK层锁 lock trylock unlock 
+reentranLock锁 JDK层锁 lock trylock unlock  
 
 2.C++多线程编程 （C++11）  
 <https://github.com/forhappy/Cplusplus-Concurrency-In-Practice>
@@ -157,7 +159,7 @@ reentranLock锁 JDK层锁 lock trylock unlock
 
 ### 必要条件  
 
-1.互斥：每个资源要么已经分配给一个进程，要么是可用的；    
+1.互斥：每个资源要么已经分配给一个进程，要么是可用的；  
 2.占有和等待：已经有资源的进程可以再请求新资源；  
 3.不可抢占：已经分配的资源不能被抢占，只能由该进程自己释放；  
 4.环路等待：两个或者两个以上进程组成一个环路，每个进程都在等待下一个进程所占的资源；
@@ -244,7 +246,7 @@ unlockA   unLockA
 1）aio_read系统调用会立即返回，应用程序继续执行不被阻塞，内核完成操作后向应用程序发送信号  
 2）与信号驱动I/O的区别：异步I/O是通知应用进程I/O完成，信号驱动I/O是通知应用进程可以开始I/O  
 
-## 应用 
+## I/O复用函数
 
 ### select  
 
@@ -253,7 +255,7 @@ int select(int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct t
 // readset、writeset、exceptset，分别对应读、写、异常条件的描述符集合;  
 // fd_set 使用数组实现，数组大小使用 FD_SETSIZE 定义;  
 // timeout 为超时参数，调用 select 会一直阻塞直到有描述符的事件到达或者等待的时间超过 timeout;  
-// 成功调用返回结果大于 0，出错返回结果为 -1，超时返回结果为 0 
+// 成功调用返回结果大于 0，出错返回结果为 -1，超时返回结果为 0
 ```  
 
 应用场景  

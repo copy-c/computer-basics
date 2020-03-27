@@ -27,11 +27,16 @@
 
 - array (c11)
   - 直接存储对象本身，而不是像vector直接存储指针
+  - 代替普通固定数组，可以使用容器的配套设施
 
 - vector
   - 数组(增导致resize、删、插都会导致迭代器失效）
+
 - list
   - 闭环双向链表
+- forward_list
+  - 单向链表，比起list效率更高
+
 - deque
   - 双端队列（数组+类 map 结构 = 多组缓冲区连接）
   - 头尾两段都可以插入和取出
@@ -58,6 +63,12 @@
   - 缺省状态是 heap 以 vector 为底
   - 缺省转态是 大顶堆(less<int>), 小顶堆可用(greater<int>)
 
+- 元组
+  - pair 只有二元
+  - make_tuple 构造元组
+  - get 获得元组某个位置的值
+  - tie 元祖拆包
+
 关联容器
 
 - map
@@ -69,6 +80,18 @@
   - 按某种规则自动排序
 - unordered_map
   - hash  
+
+### array
+
+```c++
+void foo(int *p, int len) {}
+std::array<int, 4> arr = {1,2,3,4};
+
+// C 风格接口传参
+// foo(arr, arr.size()); // 非法, 无法隐式转换
+foo(&arr[0], arr.size());
+foo(arr.data(), arr.size());
+```
 
 ### vector
 
@@ -244,6 +267,21 @@ map_.insert({"1", 10});
 - 底层采用 hash_table
 - 没有自动 sort
 
+### 元组
+
+```c++
+// get
+auto student = std::make_tuple(3.8, 'A', "张三");
+std::get<0>(student); // 使用下标取值
+std::get<double>(student); // 使用类型取值
+
+// 拆包
+tie(gpa, grade, name) = std::make_tuple(3.8, 'A', "张三");
+double a = gpa;
+char b = grade;
+string c = name;
+```
+
 ## 2 算法
 
 ### sort()
@@ -303,6 +341,8 @@ vector.erase(remove(vector.begin(), vector.end(), x), vector.end())
 
 ### back_inserter() / front_inserter()
 
+### int count = accumulate(v.begin(), v.end(), value_begin); // value_begin + 累计和
+
 ## 3 迭代器
 
 ### 定义
@@ -328,9 +368,9 @@ std::copy(to_vector.begin(), to_vector.end(), std::ostream_iterator<int>(std::co
 对()的重载 -> 对一系列操作的重载 -> 目的:能够使其高可用
 
 ```c++
-template<T>
+template<typename T>
 struct cmd {
-  T operator() (const T& x, const T& y) { return x + y; }
+  auto operator() (const T& x, const T& y) { return x + y; }
 }
 cmd<int> cmdObj; // 也可以被当做单独的对象使用
 cout << cmdObj(3, 4); // 单独拿出来也可以搞

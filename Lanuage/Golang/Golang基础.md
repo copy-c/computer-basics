@@ -182,17 +182,17 @@ for i := 0; i < len(s) + 1; i++ {
 // 直接定义是 nil, 拿数据没有问题, 但是存数据会出错
 var hash map[int]int // hash 为 nil
 // 其他方式初始化, 结果为 { }
-args := make(map[string]int)
-args := map[string]int{}
+hash := make(map[string]int)
+hash := map[string]int{}
 
 2.删除
-delete(args, key) // 失败时返回查找类型的默认初值,因此查找失败也没关系
+delete(hash, key) // 失败时返回查找类型的默认初值,因此查找失败也没关系
 
 3.create
-args[key] = value
+hash[key] = value
 
 4.查找
-if _, ok := args[key]; ok {
+if _, ok := hash[key]; ok {
 
 }
 
@@ -325,4 +325,10 @@ var strss2= []string{
     "zzz",
 }
 strss=append(strss,strss2...) //strss2的元素被打散一个个append进strss
+```
+
+## 结构体/map/slice比较大小
+
+```go
+reflect.DeepEqual(a1, a2)
 ```
