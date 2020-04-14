@@ -177,6 +177,8 @@ vector<int> list1{0, 1, 2} = vector<int> list1 = {0, 1, 2} //c11
 3. at(i) 与 [i]
     - 前者加入了越界检测, 为空则会抛出异常
 
+4. 当扩容时，会调用复制构造函数进行复制，C11下使用移动语义
+
 ### list
 
 特性
@@ -241,6 +243,10 @@ map_[string("a")] = 1;
 map_.insert({"1", 10});
 ```
 
+读取
+
+for (auto& [key, val] : map) {}
+
 复杂度
 
 - 插入: O(logN)
@@ -266,6 +272,16 @@ map_.insert({"1", 10});
 
 - 底层采用 hash_table
 - 没有自动 sort
+
+判断
+
+- if (hash1 == hash2) return true;
+
+### unordered_set
+
+初始化
+
+- unordered_set<int> good(words.begin(), words.end()); // vector<int> words;
 
 ### 元组
 
