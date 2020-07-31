@@ -23,6 +23,12 @@ curl http://www.baidu.com
     - Run “sudo sysctl -p” to make it effective
 
 
+## 时间
+
+date -d 'Thu 2020-07-30 09:36:16 UTC' +%s -> 1596101776
+
+
+
 ## 搜索
 
 1.find  
