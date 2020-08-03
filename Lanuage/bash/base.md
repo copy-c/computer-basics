@@ -37,6 +37,7 @@ case value in
 for v in value; do
   xxx
 done
+
 ```
 
 # 函数
