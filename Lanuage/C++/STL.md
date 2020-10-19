@@ -177,7 +177,11 @@ vector<int> list1{0, 1, 2} = vector<int> list1 = {0, 1, 2} //c11
 3. at(i) 与 [i]
     - 前者加入了越界检测, 为空则会抛出异常
 
-4. 当扩容时，会调用复制构造函数进行复制，C11下使用移动语义
+4. 当扩容时，会调用复制构造函数进行复制，C11下使用移动语义   
+
+5. push_back() vs emplace_back()  
+push_back(): 将已经存在的项目拷贝或者移动(move)到最后一项中  
+emplace_back(): 重新构造一个新的项目
 
 ### list
 
