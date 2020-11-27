@@ -10,8 +10,8 @@ import "C"语句则表示使用了CGO特性，紧跟在这行语句前面的注�
 2.#cgo
 注释中加入#cgo  
 设置编译阶段和链接阶段的相关参数  
-// #cgo CFLAGS: -DPNG_DEBUG=1 -I./include  // 定义相关宏和指定头文件检索路径
-// #cgo LDFLAGS: -L/usr/local/lib -lpng  // 指定库文件检索路径和要链接的库文件
+// #cgo CFLAGS: -DPNG_DEBUG=1 -I./include  // 定义相关宏和指定头文件检索路径  
+// #cgo LDFLAGS: -L/usr/local/lib -lpng  // 指定库文件检索路径和要链接的库文件  
 
 ## 类型转换
 
