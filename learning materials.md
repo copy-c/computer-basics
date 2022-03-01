@@ -6,7 +6,7 @@
 
 ## consistency
 
-<http://jepsen.io/consistency>
+<http://jepsen.io/consistency>  
 <https://github.com/GHScan/TechNotes/blob/master/2017/Memory_Model.md>
 
 
